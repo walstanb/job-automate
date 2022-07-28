@@ -1,0 +1,5 @@
+addict==2.4.0
+chromedriver==2.24.1
+pip-autoremove==0.9.1
+requests==2.25.1
+selenium==3.141.0
