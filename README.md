@@ -44,3 +44,5 @@ configs = [{
     "file_list": ['Supporting_Docs_file.pdf',],
 }]
 ```
+
+> Applied jobs are saved to a file `userone1_applied_jobs.txt` in the same folder.
