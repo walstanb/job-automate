@@ -123,7 +123,7 @@ def main(conf):
     driver.find_element_by_id('password').send_keys(conf.password)
     driver.find_element_by_name('submit').click()
 
-    WebDriverWait(driver, TIMEOUT).until(
+    WebDriverWait(driver, 360).until(
                 EC.visibility_of_element_located((By.CSS_SELECTOR, "#initialSearchBox > div > h1"))
             )
     driver.implicitly_wait(4)
@@ -143,10 +143,19 @@ def main(conf):
         driver.find_element_by_css_selector("#showMoreJobs").click()
 
     job_links = []
+    job_defs = Dict()
 
     for i in range(results):
         try:
-            job_links.append(driver.find_element_by_css_selector("#Job_"+str(i)).get_attribute("href"))
+            jlel = driver.find_element_by_css_selector(f"#Job_{str(i)}")
+            job_links.append(jlel.get_attribute("href"))
+            job_defs[jlel.get_attribute("href")] = str(
+                                
+                                driver.find_element_by_css_selector(
+                                    f"#mainJobListContainer > div > div > ul > li:nth-child({str(i-1)}) > div > div:nth-child(3) > p"
+                                ).text + "\t" +
+                                jlel.text
+                            )
         except Exception as e:
             continue
 
@@ -156,7 +165,10 @@ def main(conf):
     if MAX_JOBS:
         job_links = job_links[:MAX_JOBS]
 
-    print("Total jobs to be applied: " + str(len(job_links)))
+    print(f"\nTotal jobs to be applied: {str(len(job_links))}")
+    print("\nApplying for jobs:")
+    for job_link in job_links:
+        print(job_defs[job_link])
 
     applied_jobs = list(applied_jobs)
     ctr = 0 
@@ -175,7 +187,7 @@ def main(conf):
             continue
 
     save_applied_jobs(applied_jobs, conf.username)
-    print("Total jobs applied: " + str(ctr))
+    print(f"Total jobs applied: {str(ctr)}")
     print("Execution Complete")
     driver.refresh()
     driver.close()
