@@ -114,7 +114,7 @@ def main(conf):
     driver.maximize_window()
     driver.get("https://students.asu.edu/employment/search")
     time.sleep(0.5)
-    driver.find_element_by_css_selector("#node-16685 > div > div.field.field-name-body.field-type-text-with-summary.field-label-hidden > div > div > div > div:nth-child(1) > a > button").click()
+    driver.find_element_by_css_selector("#skip-to-content > article > div.layout__fixed-width > div > div > div > div > div > div.pt-3.block.block-layout-builder.block-inline-blockgrid-links > div > a:nth-child(1)").click()
     time.sleep(0.5)
     WebDriverWait(driver, TIMEOUT).until(
                     EC.visibility_of_element_located((By.CSS_SELECTOR, "#username"))
